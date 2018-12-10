@@ -7,24 +7,55 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B2D0F0321B5412F0062053F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2D0F0221B5412F0062053F /* OpenGL.framework */; };
+		6B2D0F0521B5468F0062053F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2D0F0421B5468F0062053F /* IOKit.framework */; };
+		6B2D0F0721B546990062053F /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2D0F0621B546990062053F /* CoreVideo.framework */; };
+		6B2D0F0921B546A20062053F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2D0F0821B546A20062053F /* Cocoa.framework */; };
+		6B2D0F0C21B5496C0062053F /* AppLooper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D0F0A21B5496C0062053F /* AppLooper.cpp */; };
+		6B2D0F1021B587590062053F /* MainDrawer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D0F0E21B587590062053F /* MainDrawer.cpp */; };
 		6B69873B21B5242200CD3002 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B69873A21B5242200CD3002 /* main.cpp */; };
+		6B69874421B5242C00CD3002 /* BMPLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B69874221B5242C00CD3002 /* BMPLoader.cpp */; };
+		6B69874921B5326100CD3002 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B69874821B5326100CD3002 /* libglfw3.a */; };
+		6B88381F21BE7B4A008CB485 /* img_test.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B88381E21BE7B2E008CB485 /* img_test.png */; };
+		6B88382321BE7FB6008CB485 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B88382221BE7FB6008CB485 /* libSOIL.a */; };
+		6B88382621BE8BA3008CB485 /* Odysseybalancing.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B88382521BE8B96008CB485 /* Odysseybalancing.bmp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6B69873521B5242200CD3002 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
 			files = (
+				6B88382621BE8BA3008CB485 /* Odysseybalancing.bmp in CopyFiles */,
+				6B88381F21BE7B4A008CB485 /* img_test.png in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6B2D0F0221B5412F0062053F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		6B2D0F0421B5468F0062053F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		6B2D0F0621B546990062053F /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		6B2D0F0821B546A20062053F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		6B2D0F0A21B5496C0062053F /* AppLooper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppLooper.cpp; sourceTree = "<group>"; };
+		6B2D0F0B21B5496C0062053F /* AppLooper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AppLooper.hpp; sourceTree = "<group>"; };
+		6B2D0F0E21B587590062053F /* MainDrawer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MainDrawer.cpp; sourceTree = "<group>"; };
+		6B2D0F0F21B587590062053F /* MainDrawer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MainDrawer.hpp; sourceTree = "<group>"; };
 		6B69873721B5242200CD3002 /* OpenGLApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenGLApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B69873A21B5242200CD3002 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		6B69874221B5242C00CD3002 /* BMPLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMPLoader.cpp; sourceTree = "<group>"; };
+		6B69874321B5242C00CD3002 /* BMPLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMPLoader.hpp; sourceTree = "<group>"; };
+		6B69874821B5326100CD3002 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
+		6B69875621B53F6500CD3002 /* GLFW_Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLFW_Bridge.h; sourceTree = "<group>"; };
+		6B8837F921BACCEE008CB485 /* glfw3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glfw3.h; path = include/glfw3.h; sourceTree = "<group>"; };
+		6B8837FA21BACCEE008CB485 /* glfw3native.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glfw3native.h; path = include/glfw3native.h; sourceTree = "<group>"; };
+		6B88381E21BE7B2E008CB485 /* img_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_test.png; sourceTree = "<group>"; };
+		6B88382221BE7FB6008CB485 /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSOIL.a; sourceTree = "<group>"; };
+		6B88382421BE7FED008CB485 /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
+		6B88382521BE8B96008CB485 /* Odysseybalancing.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = Odysseybalancing.bmp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,17 +63,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B2D0F0921B546A20062053F /* Cocoa.framework in Frameworks */,
+				6B2D0F0721B546990062053F /* CoreVideo.framework in Frameworks */,
+				6B88382321BE7FB6008CB485 /* libSOIL.a in Frameworks */,
+				6B2D0F0521B5468F0062053F /* IOKit.framework in Frameworks */,
+				6B2D0F0321B5412F0062053F /* OpenGL.framework in Frameworks */,
+				6B69874921B5326100CD3002 /* libglfw3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B2D0F0D21B5874C0062053F /* Drawers */ = {
+			isa = PBXGroup;
+			children = (
+				6B2D0F0F21B587590062053F /* MainDrawer.hpp */,
+				6B2D0F0E21B587590062053F /* MainDrawer.cpp */,
+			);
+			path = Drawers;
+			sourceTree = "<group>";
+		};
 		6B69872E21B5242200CD3002 = {
 			isa = PBXGroup;
 			children = (
 				6B69873921B5242200CD3002 /* OpenGLApp */,
 				6B69873821B5242200CD3002 /* Products */,
+				6B69874521B52F6000CD3002 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +104,58 @@
 		6B69873921B5242200CD3002 /* OpenGLApp */ = {
 			isa = PBXGroup;
 			children = (
+				6B8837FC21BACDB4008CB485 /* Assets */,
+				6B2D0F0D21B5874C0062053F /* Drawers */,
+				6B69874121B5242C00CD3002 /* BMPLoader */,
 				6B69873A21B5242200CD3002 /* main.cpp */,
+				6B69875621B53F6500CD3002 /* GLFW_Bridge.h */,
+				6B2D0F0B21B5496C0062053F /* AppLooper.hpp */,
+				6B2D0F0A21B5496C0062053F /* AppLooper.cpp */,
 			);
 			path = OpenGLApp;
+			sourceTree = "<group>";
+		};
+		6B69874121B5242C00CD3002 /* BMPLoader */ = {
+			isa = PBXGroup;
+			children = (
+				6B69874321B5242C00CD3002 /* BMPLoader.hpp */,
+				6B69874221B5242C00CD3002 /* BMPLoader.cpp */,
+			);
+			path = BMPLoader;
+			sourceTree = "<group>";
+		};
+		6B69874521B52F6000CD3002 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6B8837F521BACCAC008CB485 /* include */,
+				6B2D0F0821B546A20062053F /* Cocoa.framework */,
+				6B2D0F0621B546990062053F /* CoreVideo.framework */,
+				6B2D0F0421B5468F0062053F /* IOKit.framework */,
+				6B2D0F0221B5412F0062053F /* OpenGL.framework */,
+				6B69874821B5326100CD3002 /* libglfw3.a */,
+				6B88382221BE7FB6008CB485 /* libSOIL.a */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		6B8837F521BACCAC008CB485 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				6B88382421BE7FED008CB485 /* SOIL.h */,
+				6B8837F921BACCEE008CB485 /* glfw3.h */,
+				6B8837FA21BACCEE008CB485 /* glfw3native.h */,
+			);
+			name = include;
+			path = Frameworks;
+			sourceTree = SOURCE_ROOT;
+		};
+		6B8837FC21BACDB4008CB485 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				6B88381E21BE7B2E008CB485 /* img_test.png */,
+				6B88382521BE8B96008CB485 /* Odysseybalancing.bmp */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +214,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B69874421B5242C00CD3002 /* BMPLoader.cpp in Sources */,
+				6B2D0F1021B587590062053F /* MainDrawer.cpp in Sources */,
+				6B2D0F0C21B5496C0062053F /* AppLooper.cpp in Sources */,
 				6B69873B21B5242200CD3002 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,8 +266,8 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					GL_SILENCE_DEPRECATION,
 					"DEBUG=1",
-					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -181,6 +280,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "";
 			};
 			name = Debug;
 		};
@@ -223,6 +323,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = GL_SILENCE_DEPRECATION;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -233,6 +334,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				WARNING_CFLAGS = "";
 			};
 			name = Release;
 		};
@@ -241,6 +343,16 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBJN89SUB6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = Frameworks/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -250,6 +362,16 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MBJN89SUB6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = Frameworks/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

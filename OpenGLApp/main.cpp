@@ -6,10 +6,12 @@
 //  Copyright © 2018 Aleksandr Medvedev. All rights reserved.
 //
 
-#include <iostream>
+#include "AppLooper.hpp"
+#include "MainDrawer.hpp"
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+int main(int argc, const char *argv[]) {
+    AppLooper *looper = AppLooper::shared();
+    looper->addDrawer(new MainDrawer());
+    looper->initWindow();
+    return AppLooper::shared()->run();
 }
