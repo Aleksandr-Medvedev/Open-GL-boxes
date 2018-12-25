@@ -9,9 +9,6 @@
 #include <string>
 #include <iostream>
 #include <chrono>
-#include <math.h>
-#include <limits>
-#include <bitset>
 #include "BMPLoader.hpp"
 #include "MainDrawer.hpp"
 #include "GLFW_Bridge.h"
@@ -62,14 +59,13 @@ GLuint MainDrawer::loadProgram() {
                                        uniform float uTime;
                                        void main() {
                                            vec2 texturePositionBuffer = vTexturePosition;
-                                           if (vTexturePosition.y > 0.5) {
+                                           if (vTexturePosition.y < 0.5) {
                                                texturePositionBuffer.y = 1 - texturePositionBuffer.y;
-                                           } else {
-                                               texturePositionBuffer.x = texturePositionBuffer.x + sin(texturePositionBuffer.y * 128) * 0.02;
+                                               texturePositionBuffer.x = texturePositionBuffer.x + sin(texturePositionBuffer.y * 128 + uTime) * 0.02;
                                            }
                                            vec4 eveShipsColor = texture(uEveShipsTexture, texturePositionBuffer);
                                            vec4 spaceColor = texture(uSpaceTexture, texturePositionBuffer);
-                                           outColor = mix(eveShipsColor, spaceColor, sin(radians(uTime * 8)) / 2 + 0.5);
+                                           outColor = mix(eveShipsColor, spaceColor, sin(radians(uTime * 8)) / 2 + 0.5) * vec4(vColor, 1);
                                        })glsl"));
     glBindFragDataLocation(program, 0, "outColor");
     glLinkProgram(program);
@@ -95,10 +91,10 @@ void MainDrawer::initVerticesBuffer() {
     glBindVertexArray(vertexAO);
 
     float vertices[] = {
-        -0.5f, 0.5f,    1.0f, 0.0f, 0.0f,   0.0f, 1.0f,
-        0.5f, 0.5f,     0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-        0.5f, -0.5f,    0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
-        -0.5f, -0.5f,   0.5f, 0.5f, 0.5f,   0.0f, 0.0f
+        -0.5f, 0.5f,    1.0f, 0.5f, 0.5f,   0.0f, 1.0f,
+        0.5f, 0.5f,     0.5f, 1.0f, 0.5f,   1.0f, 1.0f,
+        0.5f, -0.5f,    0.5f, 0.5f, 1.0f,   1.0f, 0.0f,
+        -0.5f, -0.5f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f
     };
     GLuint verticesBO;
     glGenBuffers(1, &verticesBO);
