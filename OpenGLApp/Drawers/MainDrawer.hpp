@@ -17,10 +17,12 @@ class MainDrawer: public Drawer {
     void onDraw() override;
     void onWindowCreated() override;
     void initVerticesBuffer();
-    void attachTexture();
+    void attachTexture(GLuint program, char const* imagePath, char const* uniform, unsigned index);
+    GLint currentTimeMillis();
     char const *getGlErrorMessage();
     GLuint loadShader(GLenum type, const char *source);
     GLuint loadProgram();
+    int program;
 public:
     MainDrawer();
 };

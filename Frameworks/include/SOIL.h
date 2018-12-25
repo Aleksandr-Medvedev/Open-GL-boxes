@@ -15,7 +15,7 @@
 
 	I'm upgrading it to load TGA and DDS files, and a direct
 	path for loading DDS files straight into OpenGL textures,
-	when applicable.
+	when aFrpplicable.
 
 	Image Formats:
 	- BMP		load & save
