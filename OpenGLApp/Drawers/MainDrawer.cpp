@@ -8,10 +8,15 @@
 
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <chrono>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "BMPLoader.hpp"
 #include "MainDrawer.hpp"
 #include "GLFW_Bridge.h"
+#include <OpenGL/gl3ext.h>
 
 MainDrawer::MainDrawer() {
 }
@@ -44,8 +49,9 @@ GLuint MainDrawer::loadProgram() {
                                        in vec2 iTexturePosition;
                                        out vec3 vColor;
                                        out vec2 vTexturePosition;
+                                       uniform mat4 uMVPMatrix;
                                        void main() {
-                                           gl_Position = vec4(iPosition.x, iPosition.y, 0.0, 1.0);
+                                           gl_Position = vec4(iPosition, 0.0, 1.0) * uMVPMatrix;
                                            vColor = iColor;
                                            vTexturePosition = iTexturePosition;
                                        })glsl"));
@@ -158,11 +164,31 @@ GLint MainDrawer::currentTimeMillis() {
     return ~(1UL << (sizeof(GLint) * 8 - 1)) & static_cast<GLint>(millis - timeMomemnt);
 }
 
+void printArray(float *array, int count) {
+   std::cout << std::fixed;
+   std::cout << std::setprecision(2);
+   for (int i = 0; i < count; i++) {
+       std::cout << array[i] << '\t';
+   }
+   std::cout << std::endl;
+}
+
+void MainDrawer::bindMVPMatrix(float rotationAngle) {
+    glm::mat4 mvpMatrix = glm::mat4(1.0f);
+    mvpMatrix = glm::rotate(mvpMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+    glUniformMatrix4fv(glGetUniformLocation(program, "uMVPMatrix"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+}
+
+void MainDrawer::bindTime(GLint milliseconds) {
+    glUniform1f(glGetUniformLocation(program, "uTime"), static_cast<GLfloat>(milliseconds));
+}
+
 void MainDrawer::onDraw() {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     GLint millis = currentTimeMillis();
-    glUniform1f(glGetUniformLocation(program, "uTime"), static_cast<GLfloat>(millis));
+    bindTime(millis);
+    bindMVPMatrix(millis % 360);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 

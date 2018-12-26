@@ -18,8 +18,10 @@ class MainDrawer: public Drawer {
     void onWindowCreated() override;
     void initVerticesBuffer();
     void attachTexture(GLuint program, char const* imagePath, char const* uniform, unsigned index);
-    GLint currentTimeMillis();
+    void bindMVPMatrix(float rotationAngle);
+    void bindTime(GLint milliseconds);
     char const *getGlErrorMessage();
+    GLint currentTimeMillis();
     GLuint loadShader(GLenum type, const char *source);
     GLuint loadProgram();
     int program;
