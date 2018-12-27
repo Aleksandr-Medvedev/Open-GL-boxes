@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+#include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -51,7 +52,7 @@ GLuint MainDrawer::loadProgram() {
                                        out vec2 vTexturePosition;
                                        uniform mat4 uMVPMatrix;
                                        void main() {
-                                           gl_Position = vec4(iPosition, 0.0, 1.0) * uMVPMatrix;
+                                           gl_Position = uMVPMatrix * vec4(iPosition, 0.0, 1.0);
                                            vColor = iColor;
                                            vTexturePosition = iTexturePosition;
                                        })glsl"));
@@ -67,11 +68,12 @@ GLuint MainDrawer::loadProgram() {
                                            vec2 texturePositionBuffer = vTexturePosition;
                                            if (vTexturePosition.y < 0.5) {
                                                texturePositionBuffer.y = 1 - texturePositionBuffer.y;
-                                               texturePositionBuffer.x = texturePositionBuffer.x + sin(texturePositionBuffer.y * 128 + uTime) * 0.02;
+                                               texturePositionBuffer.x = texturePositionBuffer.x + sin(texturePositionBuffer.y * 128 + uTime / 4) * 0.02;
                                            }
                                            vec4 eveShipsColor = texture(uEveShipsTexture, texturePositionBuffer);
                                            vec4 spaceColor = texture(uSpaceTexture, texturePositionBuffer);
-                                           outColor = mix(eveShipsColor, spaceColor, sin(radians(uTime * 8)) / 2 + 0.5) * vec4(vColor, 1);
+                                           float showDegree = sin(radians(uTime * 4)) / 2 + 0.5;
+                                           outColor = mix(eveShipsColor, spaceColor, showDegree) * vec4(vColor, 1);
                                        })glsl"));
     glBindFragDataLocation(program, 0, "outColor");
     glLinkProgram(program);
@@ -158,11 +160,73 @@ char const *MainDrawer::getGlErrorMessage() {
 
 GLint MainDrawer::currentTimeMillis() {
     static const long long timeMomemnt = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
-    .count() >> 7;
+    .count() >> 5;
     long long millis = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
-        .count() >> 7;
+        .count() >> 5;
     return ~(1UL << (sizeof(GLint) * 8 - 1)) & static_cast<GLint>(millis - timeMomemnt);
 }
+
+void MainDrawer::bindMVPMatrix(float zRotation, float xRotation) {
+    glm::mat4 modelMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(zRotation) / 4, glm::vec3(0.0f, 0.0f, 1.0f));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(xRotation), glm::vec3(0.0f, 1.0f, 0.0f));
+    float scaleFactor = std::sin(zRotation * M_PI / 180) / 4 + 1.5f;
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(scaleFactor, scaleFactor, 1.0f));
+    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0, 0, 4.0f), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), screenAspect, 1.0f, 8.0f);
+    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
+    glUniformMatrix4fv(glGetUniformLocation(program, "uMVPMatrix"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
+}
+
+void MainDrawer::bindTime(GLint milliseconds) {
+    glUniform1f(glGetUniformLocation(program, "uTime"), static_cast<GLfloat>(milliseconds));
+}
+
+float MainDrawer::getXRotation() {
+    xRotationSpeed += xRotationAcceleration;
+    if (xRotationSpeed <= 0) {
+        secondsTicker = 0;
+        xRotationAcceleration = 0;
+        xRotationSpeed = 0;
+    } else {
+        long long const currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        if (!secondsTicker) {
+            secondsTicker = currentTime;
+        }
+        xRotationAcceleration = -xRotationSpeed / 1000;
+
+        secondsTicker = currentTime;
+    }
+    xRotationAngle += xRotationSpeed;
+    return xRotationAngle;
+}
+
+void MainDrawer::onDraw() {
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    GLint millis = currentTimeMillis();
+    bindTime(millis);
+    bindMVPMatrix(millis, getXRotation());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void MainDrawer::onWindowCreated(float width, float height) {
+    xRotationSpeed = 0;
+    secondsTicker = 0;
+    xRotationAcceleration = 0;
+    initVerticesBuffer();
+    program = loadProgram();
+    attachTexture(program, "Odysseybalancing.bmp", "uEveShipsTexture", 0);
+    attachTexture(program, "space.bmp", "uSpaceTexture", 1);
+    screenAspect = width / height;
+}
+
+void MainDrawer::onSpacePressed() {
+    std::cout << "space pressed" << std::endl;
+    if (xRotationAcceleration < 10) {
+        xRotationAcceleration += 1;
+    }
+}
+
 
 void printArray(float *array, int count) {
    std::cout << std::fixed;
@@ -173,28 +237,14 @@ void printArray(float *array, int count) {
    std::cout << std::endl;
 }
 
-void MainDrawer::bindMVPMatrix(float rotationAngle) {
-    glm::mat4 mvpMatrix = glm::mat4(1.0f);
-    mvpMatrix = glm::rotate(mvpMatrix, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-    glUniformMatrix4fv(glGetUniformLocation(program, "uMVPMatrix"), 1, GL_FALSE, glm::value_ptr(mvpMatrix));
-}
-
-void MainDrawer::bindTime(GLint milliseconds) {
-    glUniform1f(glGetUniformLocation(program, "uTime"), static_cast<GLfloat>(milliseconds));
-}
-
-void MainDrawer::onDraw() {
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    GLint millis = currentTimeMillis();
-    bindTime(millis);
-    bindMVPMatrix(millis % 360);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-
-void MainDrawer::onWindowCreated() {
-    initVerticesBuffer();
-    program = loadProgram();
-    attachTexture(program, "Odysseybalancing.bmp", "uEveShipsTexture", 0);
-    attachTexture(program, "space.bmp", "uSpaceTexture", 1);
+void printMat4(glm::mat4 &mat) {
+   std::cout << std::fixed;
+   std::cout << std::setprecision(2);
+   for (int i = 0; i < mat.length(); ++i) {
+       glm::vec4 vector = mat[i];
+       for (int j = 0; j < vector.length(); ++j) {
+           std::cout << vector[j] << '\t';
+       }
+       std::cout << std::endl;
+   }
 }

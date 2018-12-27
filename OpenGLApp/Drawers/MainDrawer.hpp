@@ -15,16 +15,23 @@
 
 class MainDrawer: public Drawer {
     void onDraw() override;
-    void onWindowCreated() override;
+    void onWindowCreated(float width, float height) override;
+    void onSpacePressed() override;
     void initVerticesBuffer();
     void attachTexture(GLuint program, char const* imagePath, char const* uniform, unsigned index);
-    void bindMVPMatrix(float rotationAngle);
+    void bindMVPMatrix(float zRotation, float xRotation);
     void bindTime(GLint milliseconds);
+    float getXRotation();
     char const *getGlErrorMessage();
     GLint currentTimeMillis();
     GLuint loadShader(GLenum type, const char *source);
     GLuint loadProgram();
     int program;
+    long long secondsTicker;
+    float screenAspect;
+    float xRotationAcceleration;
+    float xRotationSpeed;
+    float xRotationAngle;
 public:
     MainDrawer();
 };

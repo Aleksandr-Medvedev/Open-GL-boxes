@@ -9,7 +9,6 @@
 #ifndef AppLooper_hpp
 #define AppLooper_hpp
 
-#include <stdio.h>
 #include <vector>
 
 class GLFWwindow;
@@ -17,7 +16,8 @@ class GLFWwindow;
 class Drawer {
 public:
     virtual void onDraw() = 0;
-    virtual void onWindowCreated() = 0;
+    virtual void onWindowCreated(float width, float height) = 0;
+    virtual void onSpacePressed() = 0;
 };
 
 class AppLooper {
