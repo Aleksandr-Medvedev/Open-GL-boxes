@@ -17,11 +17,15 @@ class MainDrawer: public Drawer {
     void onDraw() override;
     void onWindowCreated(float width, float height) override;
     void onSpacePressed() override;
+    void onLMBPressed(float x, float y) override;
+    void onLMBReleased(float x, float y) override;
     void initVerticesBuffer();
-    void attachTexture(GLuint program, char const* imagePath, char const* uniform, unsigned index);
-    void bindMVPMatrix(float zRotation, float xRotation);
+    void bindTexture(GLuint program, char const* imagePath, char const* uniform, unsigned index);
+    void bindModelMatrix(float zRotation, float xyRotation, float yTranslate, float scaleFactor);
+    void bindViewMatrix(float x, float y, float z);
+    void bindProjectionMatrix(float zoom);
     void bindTime(GLint milliseconds);
-    float getXRotation();
+    float getXModelRotation();
     char const *getGlErrorMessage();
     GLint currentTimeMillis();
     GLuint loadShader(GLenum type, const char *source);
@@ -29,9 +33,11 @@ class MainDrawer: public Drawer {
     int program;
     long long secondsTicker;
     float screenAspect;
-    float xRotationAcceleration;
-    float xRotationSpeed;
-    float xRotationAngle;
+    float xModelRotationAcceleration;
+    float xModelRotationSpeed;
+    float xModelRotationAngle;
+    float xClickOrigin;
+    float yClickOrigin;
 public:
     MainDrawer();
 };

@@ -60,6 +60,24 @@ int AppLooper::initWindow() {
             }
         }
     });
+    glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods) {
+        const AppLooper *looper = AppLooper::shared();
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            double xPositionRaw, yPositionRaw;
+            glfwGetCursorPos(window, &xPositionRaw, &yPositionRaw);
+            float xPosition = static_cast<float>(xPositionRaw);
+            float yPosition = static_cast<float>(yPositionRaw);
+            for (Drawer *drawer: *looper->drawers) {
+                if (drawer) {
+                    if (action == GLFW_PRESS) {
+                        drawer->onLMBPressed(xPosition, yPosition);
+                    } else if (action == GLFW_RELEASE) {
+                        drawer->onLMBReleased(xPosition, yPosition);
+                    }
+                }
+            }
+        }
+    });
     for (Drawer *drawer: *drawers) {
         if (drawer) {
             drawer->onWindowCreated(static_cast<float>(*width), static_cast<float>(*height));
@@ -73,6 +91,7 @@ int AppLooper::run() {
         // TODO: throw an error
     }
 
+    glEnable(GL_DEPTH_TEST);
     /* Loop until the user closes the window */
     long long lastTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     while (!glfwWindowShouldClose(window)) {

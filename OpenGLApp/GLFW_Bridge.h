@@ -10,6 +10,7 @@
 #define GLFW_Bridge_h
 
 #include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 #include <glfw3.h> // Hide a warning in this header because we don't want to change our dependencies

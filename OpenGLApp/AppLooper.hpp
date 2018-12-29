@@ -18,8 +18,10 @@ public:
     virtual void onDraw() = 0;
     virtual void onWindowCreated(float width, float height) = 0;
     virtual void onSpacePressed() = 0;
+    virtual void onLMBPressed(float x, float y) = 0;
+    virtual void onLMBReleased(float x, float y) = 0;
 };
-
+ 
 class AppLooper {
     GLFWwindow *window;
     std::vector<Drawer *> *drawers;

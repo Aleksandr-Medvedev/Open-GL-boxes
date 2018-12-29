@@ -20,6 +20,7 @@
 		6B88382321BE7FB6008CB485 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B88382221BE7FB6008CB485 /* libSOIL.a */; };
 		6B88382621BE8BA3008CB485 /* Odysseybalancing.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B88382521BE8B96008CB485 /* Odysseybalancing.bmp */; };
 		6B88382821BEA989008CB485 /* space.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B88382721BEA981008CB485 /* space.bmp */; };
+		6BB4CC2921D7C2DC006F3AD2 /* Shaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BB4CC2721D7C2DC006F3AD2 /* Shaders.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,6 +60,8 @@
 		6B88382421BE7FED008CB485 /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
 		6B88382521BE8B96008CB485 /* Odysseybalancing.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = Odysseybalancing.bmp; sourceTree = "<group>"; };
 		6B88382721BEA981008CB485 /* space.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = space.bmp; sourceTree = "<group>"; };
+		6BB4CC2721D7C2DC006F3AD2 /* Shaders.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shaders.cpp; sourceTree = "<group>"; };
+		6BB4CC2821D7C2DC006F3AD2 /* Shaders.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shaders.hpp; sourceTree = "<group>"; };
 		6BED7F4F21D2564F004EF162 /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vec4.hpp; sourceTree = "<group>"; };
 		6BED7F5021D2564F004EF162 /* integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integer.hpp; sourceTree = "<group>"; };
 		6BED7F5121D2564F004EF162 /* vector_relational.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vector_relational.hpp; sourceTree = "<group>"; };
@@ -455,6 +458,8 @@
 			children = (
 				6B2D0F0F21B587590062053F /* MainDrawer.hpp */,
 				6B2D0F0E21B587590062053F /* MainDrawer.cpp */,
+				6BB4CC2821D7C2DC006F3AD2 /* Shaders.hpp */,
+				6BB4CC2721D7C2DC006F3AD2 /* Shaders.cpp */,
 			);
 			path = Drawers;
 			sourceTree = "<group>";
@@ -1013,6 +1018,7 @@
 				6B69874421B5242C00CD3002 /* BMPLoader.cpp in Sources */,
 				6B2D0F1021B587590062053F /* MainDrawer.cpp in Sources */,
 				6B2D0F0C21B5496C0062053F /* AppLooper.cpp in Sources */,
+				6BB4CC2921D7C2DC006F3AD2 /* Shaders.cpp in Sources */,
 				6B69873B21B5242200CD3002 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
