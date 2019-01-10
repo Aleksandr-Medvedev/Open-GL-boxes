@@ -13,7 +13,7 @@
 #include <chrono>
 #include <functional>
 
-AppLooper * AppLooper::shared() {
+AppLooper *const AppLooper::shared() {
     static AppLooper *instance = new AppLooper();
     return instance;
 }
@@ -51,7 +51,7 @@ int AppLooper::initWindow() {
     int *height = new int();
     glfwGetWindowSize(window, width, height);
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        const AppLooper *looper = AppLooper::shared();
+        AppLooper const *looper = AppLooper::shared();
         if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
             for (Drawer *drawer: *looper->drawers) {
                 if (drawer) {
@@ -61,7 +61,7 @@ int AppLooper::initWindow() {
         }
     });
     glfwSetMouseButtonCallback(window, [](GLFWwindow *window, int button, int action, int mods) {
-        const AppLooper *looper = AppLooper::shared();
+        AppLooper *looper = AppLooper::shared();
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
             double xPositionRaw, yPositionRaw;
             glfwGetCursorPos(window, &xPositionRaw, &yPositionRaw);
@@ -70,9 +70,9 @@ int AppLooper::initWindow() {
             for (Drawer *drawer: *looper->drawers) {
                 if (drawer) {
                     if (action == GLFW_PRESS) {
-                        drawer->onLMBPressed(xPosition, yPosition);
+                        looper->onLeftButtonMousePressed(xPosition, yPosition);
                     } else if (action == GLFW_RELEASE) {
-                        drawer->onLMBReleased(xPosition, yPosition);
+                        looper->onLeftButtonMouseReleased(xPosition, yPosition);
                     }
                 }
             }
@@ -84,6 +84,27 @@ int AppLooper::initWindow() {
         }
     }
     return 0;
+}
+
+void AppLooper::onLeftButtonMousePressed(float x, float y) {
+    xDragginOrigin = x;
+    yDraggingOrigin = y;
+    glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xpos, double ypos) {
+        AppLooper *looper = AppLooper::shared();
+        float x = static_cast<float>(xpos);
+        float y = static_cast<float>(ypos);
+        for (Drawer *drawer: *looper->drawers) {
+            if (drawer) {
+                drawer->onDragMouse(looper->xDragginOrigin, looper->yDraggingOrigin, x, y);
+            }
+        }
+    });
+}
+
+void AppLooper::onLeftButtonMouseReleased(float x, float y) {
+    xDragginOrigin = -1;
+    yDraggingOrigin = -1;
+    glfwSetCursorPosCallback(window, NULL);
 }
 
 int AppLooper::run() {

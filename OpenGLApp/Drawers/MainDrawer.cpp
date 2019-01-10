@@ -14,6 +14,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/rotate_vector.hpp>
 #include "BMPLoader.hpp"
 #include "GLFW_Bridge.h"
 #include "Shaders.hpp"
@@ -25,6 +27,8 @@ MainDrawer::MainDrawer() {
     xModelRotationAngle = 0;
     xModelRotationSpeed = 0;
     xModelRotationAcceleration = 0;
+    xViewRotateAngle = 0;
+    yViewRotateAngle = 0;
     secondsTicker = 0;
 }
 
@@ -85,10 +89,10 @@ void MainDrawer::onDraw() {
     GLint millis = currentTimeMillis();
     bindTime(millis);
     bindProjectionMatrix(1.0);
-    bindViewMatrix(2.0, 2.0, 8.0);
-    bindModelMatrix(millis, getXModelRotation(), 1, 1);
+    bindViewMatrix(2.0, 2.0, 8.0, xViewRotateAngle, yViewRotateAngle);
+    bindModelMatrix(millis, getXModelRotation(), 1.8, 1);
     glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, 0);
-    bindModelMatrix(-millis, getXModelRotation(), -1, -1);
+    bindModelMatrix(-millis, -getXModelRotation(), -1.8, -1);
     glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, 0);
 }
 
@@ -101,20 +105,10 @@ void MainDrawer::onSpacePressed() {
     }
 }
 
-void MainDrawer::onLMBPressed(float x, float y) {
-    xClickOrigin = x;
-    yClickOrigin = y;
-    std::cout << std::fixed << std::setprecision(2);
-    std::cout << xClickOrigin << std::endl;
-    std::cout << yClickOrigin << std::endl;
-}
-
-void MainDrawer::onLMBReleased(float x, float y) {
-    xClickOrigin = x;
-    yClickOrigin = y;
-    std::cout << std::fixed << std::setprecision(2);
-    std::cout << x << std::endl;
-    std::cout << y << std::endl;
+void MainDrawer::onDragMouse(float xO, float yO, float x, float y) {
+    static float const fullAngle = 360;
+    yViewRotateAngle = (x - xO) / 800 * fullAngle;
+    xViewRotateAngle = (y - yO) / 800 * fullAngle;
 }
 
 #pragma mark - Uniforms
@@ -149,21 +143,24 @@ void MainDrawer::bindProjectionMatrix(float zoom) {
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
-void MainDrawer::bindViewMatrix(float x, float y, float z) {
-    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(x, y, z), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+void MainDrawer::bindViewMatrix(float x, float y, float z, float xAngleDegrees, float yAngleDegrees) {
+    glm::vec3 origin = glm::vec3(x, y, z);
+    origin = glm::rotateX(origin, glm::radians(xAngleDegrees));
+    origin = glm::rotateY(origin, glm::radians(yAngleDegrees));
+    glm::mat4 viewMatrix = glm::lookAt(origin, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
     const int uniformLocation = glGetUniformLocation(program, "uViewMatrix");
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 }
 
-void MainDrawer::bindModelMatrix(float zRotation, float xyRotation, float yTranslate, float scaleFactor) {
+void MainDrawer::bindModelMatrix(float zRotation, float xRotation, float yTranslate, float scaleFactor) {
     if (xModelRotationAcceleration != 0) {
-        std::cout << std::fixed << std::setprecision(2) << xyRotation << std::endl;
+        std::cout << std::fixed << std::setprecision(2) << xRotation << std::endl;
     }
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, yTranslate, 0));
     modelMatrix = glm::rotate(modelMatrix, glm::radians(zRotation) / 4, glm::vec3(0.0f, 0.0f, 1.0f));
-    modelMatrix = glm::rotate(modelMatrix, glm::radians(xyRotation), glm::vec3(1.0f, 0.5f, 0.0f));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(xRotation), glm::vec3(1.0f, 0.0f, 0.0f));
     float scale = (std::sin(abs(zRotation) * M_PI / 180) / 4 + 1);
-    modelMatrix = glm::scale(modelMatrix, glm::vec3(scale * scaleFactor, scale * scaleFactor, scale));
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(scale, scale * scaleFactor, scale));
     glUniformMatrix4fv(glGetUniformLocation(program, "uModelMatrix"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
